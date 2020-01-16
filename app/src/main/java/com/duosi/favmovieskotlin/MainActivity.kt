@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.duosi.favmovieskotlin.adapters.FavMovieRecyclerAdapter
+import com.duosi.favmovieskotlin.models.Movie
 import com.duosi.favmovieskotlin.utils.TopSpacingItemDecoration
 import com.duosi.favmovieskotlin.viewmodels.FavMoviesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +21,10 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var favMovieRecyclerAdapter: FavMovieRecyclerAdapter
 
+    lateinit var it: List<Movie>
+
+    var sortFlag = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,6 +33,22 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent()
             intent.setClass(this, FindMoviesActivity::class.java)
             startActivity(intent)
+        }
+
+        button_sort_date.setOnClickListener {
+            if (sortFlag == 1) {
+                println("sortFlag : $sortFlag")
+                button_sort_date.setText("Ascending movie by year")
+                favMovieRecyclerAdapter.sortByDataDescending()
+                favMovieRecyclerAdapter.notifyDataSetChanged()
+                sortFlag = 2
+            } else {
+                println("sortFlag : $sortFlag")
+                button_sort_date.setText("Descending movie by year")
+                favMovieRecyclerAdapter.sortByDataAscending()
+                favMovieRecyclerAdapter.notifyDataSetChanged()
+                sortFlag = 1
+            }
         }
 
         viewModel = ViewModelProviders.of(this).get(FavMoviesViewModel::class.java)

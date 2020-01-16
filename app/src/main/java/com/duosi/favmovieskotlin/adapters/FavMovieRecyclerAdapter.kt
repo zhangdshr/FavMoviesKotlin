@@ -21,7 +21,7 @@ class FavMovieRecyclerAdapter(private val application: Application) :
 
     private val TAG: String = "FavMovieRecyclerAdapter"
 
-    private var items: List<Movie> = ArrayList()
+    private var items: MutableList<Movie> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MovieViewHolder(
@@ -48,7 +48,15 @@ class FavMovieRecyclerAdapter(private val application: Application) :
     }
 
     fun submitList(movieList: List<Movie>) {
-        items = movieList
+        items = movieList as MutableList<Movie>
+    }
+
+    fun sortByDataAscending() {
+        items.sortBy { it.Year }
+    }
+
+    fun sortByDataDescending() {
+        items.sortedByDescending { it.Year }
     }
 
     class MovieViewHolder
